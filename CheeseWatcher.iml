@@ -11,7 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.openimaj:core-video:1.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.openimaj:core-image:1.3.6" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.jeuclid:jeuclid-core:3.1.9" level="project" />
@@ -109,14 +108,6 @@
     <orderEntry type="library" name="Maven: com.twelvemonkeys.common:common-image:3.0-rc5" level="project" />
     <orderEntry type="library" name="Maven: com.twelvemonkeys.imageio:imageio-core:3.0-rc5" level="project" />
     <orderEntry type="library" name="Maven: com.twelvemonkeys.common:common-lang:3.0-rc5" level="project" />
-    <orderEntry type="library" name="Maven: org.openimaj:core-audio:1.3.6" level="project" />
-    <orderEntry type="library" name="Maven: org.openimaj.content:animation:1.3.6" level="project" />
-    <orderEntry type="library" name="Maven: org.openimaj:xuggle-video:1.3.6" level="project" />
-    <orderEntry type="library" name="Maven: xuggle:xuggle-xuggler-lgpl:5.5-20140728" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
-    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: ch.qos.logback:logback-core:1.0.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: ch.qos.logback:logback-classic:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: pircbot:pircbot:1.4.6" level="project" />
   </component>
 </module>

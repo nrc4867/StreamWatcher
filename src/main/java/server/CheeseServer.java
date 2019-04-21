@@ -1,9 +1,11 @@
 package server;
 
+import client.BotClient;
 import client.Client;
 import client.ClientManager;
 import util.ClosableThread;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Arrays;
@@ -130,8 +132,10 @@ public class CheeseServer extends ClosableThread {
                 String brokenCmd[] = {
                         "cmd /c",
                         "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\Python36_64\\Scripts\\streamlink.exe\"",
+                        "--hls-start-offset 10:30",
                         "-O",
-                        "twitch.tv/rawb worst |",
+                        "https://www.twitch.tv/videos/413600002 worst |",
+//                        "twitch.tv/rawb worst |",
                         "ffmpeg -i - -vf fps=144 -vsync drop -vcodec mjpeg -crf 50 -an -f image2pipe -"
                 };
 

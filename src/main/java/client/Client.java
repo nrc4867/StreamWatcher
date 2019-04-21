@@ -6,12 +6,13 @@ import util.ServerMessages;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public abstract class Client extends ClosableThread {
+public abstract class Client extends ClosableThread implements Serializable{
 
     protected final Socket socket;
 

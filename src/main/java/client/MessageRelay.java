@@ -15,6 +15,26 @@ public class MessageRelay extends PircBot {
 
     private String channel;
 
+    private class LoginTimer extends Thread {
+        private int WAIT_TIME = 1000;
+
+        @Override
+        public void run() {
+            try {
+                sleep(WAIT_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private final LoginTimer timer = new LoginTimer();
+
+    /**
+     * The server we connected to liked our password
+     */
+    private boolean authenticated = false;
+
     /**
      * Connect to a twitch IRC channel
      * @param channel the twitch account
@@ -26,8 +46,30 @@ public class MessageRelay extends PircBot {
     public MessageRelay(String channel, String username, String oauth) throws IOException, IrcException{
         this.channel = channel;
         this.setName(username);
+        this.setMessageDelay(5000);
         this.connect(HOST_NAME, PORT, oauth);
+
+        timer.start();
+
+        try {
+            timer.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (!authenticated) throw new IrcException("could not authenticate with twitch server");
+
         this.joinChannel(channel);
+
+    }
+
+    @Override
+    protected void onServerResponse(int code, String response) {
+        super.onServerResponse(code, response);
+        if (code == 1 & response.contains("Welcome, GLHF!")) {
+            authenticated = true;
+            timer.interrupt();
+        }
     }
 
     public void sendMouse() {

@@ -2,7 +2,9 @@ package server;
 
 import client.ClientManager;
 import org.openimaj.image.DisplayUtilities;
+import util.Cheese;
 import util.CheeseAnalyzer;
+import util.ObjectSaver;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,9 +19,20 @@ public class StreamVideoWatcher extends Thread {
     private boolean seenNormal = false;
     private boolean seenRadical = false;
 
+    private final Cheese radical;
+    private final Cheese normal;
+
     StreamVideoWatcher(CheeseServer server, InputStream stream) throws IOException {
         this.server = server;
         this.stream = stream;
+
+        this.radical = (Cheese) ObjectSaver.load("./Purple.cheesedata");
+        radical.setFreedom(5.0f);
+        radical.setPercentMatch(0.25f);
+
+        this.normal = (Cheese) ObjectSaver.load("./Yellow.cheesedata");
+        normal.setFreedom(5.0f);
+        normal.setPercentMatch(0.25f);
     }
 
     @Override
@@ -35,7 +48,7 @@ public class StreamVideoWatcher extends Thread {
                 }
 
 
-                if (!seenNormal & CheeseAnalyzer.scanNormalCheese(image)) {
+                if (!seenNormal && normal.compare(image)) {
                     Set<ClientManager> clientList = server.getClients();
                     System.out.println("Sending Normal Cheese to: " + clientList.size() + " clients");
                     for (ClientManager client: clientList) {
@@ -46,7 +59,7 @@ public class StreamVideoWatcher extends Thread {
                     seenNormal = true;
                 }
 
-                if (seenNormal && !seenRadical && CheeseAnalyzer.scanRadCheese(image)) {
+                if (seenNormal && !seenRadical && radical.compare(image)) {
                     Set<ClientManager> clientList = server.getClients();
                     System.out.println("Sending Radical Cheese to: " + clientList.size() + " clients");
                     for (ClientManager client: clientList) {
@@ -57,7 +70,7 @@ public class StreamVideoWatcher extends Thread {
                     seenNormal = false;
                 }
 
-//                DisplayUtilities.display(image, frame);
+                DisplayUtilities.display(image, frame);
                 image.flush();
             } catch (IOException e) {
                 e.printStackTrace();

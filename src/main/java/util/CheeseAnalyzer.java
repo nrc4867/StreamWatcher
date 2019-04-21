@@ -12,11 +12,12 @@ import java.awt.image.BufferedImage;
  */
 public class CheeseAnalyzer {
 
-    private final static float maxdistance = 50.0f;
-    private final static int minMatch = 2;
+    private final static float maxdistance = 10.0f;
+    private final static int minMatch = 3;
 
 
     public static boolean scanNormalCheese(BufferedImage image) {
+        System.out.println("Normal Scan");
         int pixels[][][] = new int[][][]{
                 {{image.getRGB(8,140)}, {253,255,143}},
                 {{image.getRGB(15,146)}, {253,242,100}},
@@ -27,6 +28,7 @@ public class CheeseAnalyzer {
     }
 
     public static boolean scanRadCheese(BufferedImage image) {
+        System.out.println("Rad Scan");
         int pixels[][][] = new int[][][]{
                 {{image.getRGB(8,140)}, {214,248,246}},
                 {{image.getRGB(15,146)}, {240,231,253}},
@@ -54,11 +56,18 @@ public class CheeseAnalyzer {
     }
 
     private static float colorDistance(int pr, int pg, int pb, int r, int g, int b) {
-        final int diffR = r - pr;
-        final int diffG = g - pg;
-        final int diffB = b - pb;
-        return (float) Math.sqrt(diffB*diffB + diffR*diffR + diffG * diffG);
-    }
+        final int diffR = Math.abs(r - pr);
+        final int diffG = Math.abs(g - pg);
+        final int diffB = Math.abs(b - pb);
 
+        final float pctDiffRed = (float) diffR / 255;
+        final float pctDiffGreen = (float) diffB / 255;
+        final float pctDiffBlue = (float) diffG / 255;
+
+
+
+        System.out.println((float)((pctDiffRed + pctDiffBlue + pctDiffGreen) / 3 * 100));
+        return (float)((pctDiffRed + pctDiffBlue + pctDiffGreen) / 3 * 100);
+    }
 
 }

@@ -1,11 +1,9 @@
 package server;
 
-import client.BotClient;
 import client.Client;
 import client.ClientManager;
 import util.ClosableThread;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Arrays;
@@ -132,7 +130,7 @@ public class CheeseServer extends ClosableThread {
                 String brokenCmd[] = {
                         "cmd /c",
                         "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\Python36_64\\Scripts\\streamlink.exe\"",
-                        "--hls-start-offset 10:30",
+                        "--hls-start-offset 10:20",
                         "-O",
                         "https://www.twitch.tv/videos/413600002 worst |",
 //                        "twitch.tv/rawb worst |",
@@ -146,6 +144,10 @@ public class CheeseServer extends ClosableThread {
                 process = runtime.exec(cmd.toString());
                 StreamVideoWatcher videoWatcher = new StreamVideoWatcher(server, process.getInputStream());
                 videoWatcher.start();
+//
+//                CheeseBuilder cheese = new CheeseBuilder("Purple", process.getInputStream());
+//                cheese.start();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

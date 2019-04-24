@@ -14,14 +14,14 @@ import java.util.Scanner;
 
 public abstract class Client extends ClosableThread implements Serializable{
 
-    protected final Socket socket;
+    protected Socket socket;
 
     protected final ArrayList<Heartbeat> heartbeats = new ArrayList<>();
 
-    protected final OutputStreamWriter outputStream;
-    protected final InputStreamReader inputStream;
+    protected OutputStreamWriter outputStream;
+    protected InputStreamReader inputStream;
 
-    public Client(Socket socket) {
+    protected void setSocket(Socket socket) {
         this.socket = socket;
 
         OutputStreamWriter outputStream = null;

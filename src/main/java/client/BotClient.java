@@ -24,7 +24,7 @@ public abstract class BotClient extends ClientManager  {
      *                 password - Twitch Password
      */
     public BotClient(CheeseServer server, File userInfo) throws IOException {
-        super(new Socket("localhost" , server.getPort()), server);
+        super(server);
 
         this.userInfo = userInfo;
         MessageRelay relay = null;
@@ -50,11 +50,6 @@ public abstract class BotClient extends ClientManager  {
 
         this.username = user;
         messageRelay = relay;
-    }
-
-    @Override
-    protected void read(String message) {
-        super.read(message);
     }
 
     @Override

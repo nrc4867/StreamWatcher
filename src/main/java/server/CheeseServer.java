@@ -1,9 +1,11 @@
 package server;
 
+import client.BotClient;
 import client.Client;
 import client.ClientManager;
 import util.ClosableThread;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Arrays;
@@ -108,8 +110,17 @@ public class CheeseServer extends ClosableThread {
             server.start();
             clientCaller.start();
 
-//            BotClient daft = new BotClient(server, new File("D:\\Documents\\sneakyMouse\\daft.txt"));
-//            server.addClients(daft);
+            BotClient charcollector = new BotClient(server, new File("D:\\Documents\\sneakyMouse\\char.txt")) {
+                @Override
+                public void sendNormalCheese() {}
+
+                @Override
+                public void sendRadCheese() {
+                    messageRelay.sendMouse();
+                    System.out.println(toString());
+                }
+            };
+            server.addClients(charcollector);
 
         } catch (IOException e) {
             System.out.println("Server already running on port: " + port);
@@ -119,39 +130,15 @@ public class CheeseServer extends ClosableThread {
 
         Runtime runtime = Runtime.getRuntime();
         Shutdown shutdown = new Shutdown(server, clientCaller);
-        if(terminalInput) {
-            CheeseServerCMD cmd = new CheeseServerCMD(server);
-            shutdown.addClosableThreads(cmd);
-            cmd.start();
-        } else {
-            Process process = null;
-            try {
 
-                String brokenCmd[] = {
-                        "cmd /c",
-                        "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\Python36_64\\Scripts\\streamlink.exe\"",
-                        "--hls-start-offset 10:20",
-                        "-O",
-                        "https://www.twitch.tv/videos/413600002 worst |",
-//                        "twitch.tv/rawb worst |",
-                        "ffmpeg -i - -vf fps=144 -vsync drop -vcodec mjpeg -crf 50 -an -f image2pipe -"
-                };
+        CheeseServerCMD cmd = new CheeseServerCMD(server);
+        shutdown.addClosableThreads(cmd);
+        cmd.start();
 
-                StringBuilder cmd = new StringBuilder();
-                for (String s: brokenCmd) {
-                    cmd.append(s).append(" ");
-                }
-                process = runtime.exec(cmd.toString());
-                StreamVideoWatcher videoWatcher = new StreamVideoWatcher(server, process.getInputStream());
-                videoWatcher.start();
-//
-//                CheeseBuilder cheese = new CheeseBuilder("Purple", process.getInputStream());
-//                cheese.start();
+        StreamRetriever retriever = new StreamRetriever(server);
+        shutdown.addClosableThreads(retriever);
+        retriever.start();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         runtime.addShutdownHook(shutdown);
     }

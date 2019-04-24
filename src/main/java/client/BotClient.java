@@ -8,12 +8,13 @@ import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class BotClient extends ClientManager  {
+public abstract class BotClient extends ClientManager  {
 
     private boolean isRunning = true;
 
-    private final MessageRelay messageRelay;
+    protected final MessageRelay messageRelay;
     private final File userInfo;
+    private final String username;
 
     /**
      * Create a bot to collect cheese
@@ -28,13 +29,15 @@ public class BotClient extends ClientManager  {
         this.userInfo = userInfo;
         MessageRelay relay = null;
 
+        String user = null;
+
         try (Scanner reader = new Scanner(new FileInputStream(userInfo))) {
 
             String channel = reader.nextLine();
-            String username = reader.nextLine();
+            user = reader.nextLine();
             String password = reader.nextLine();
 
-            relay = new MessageRelay(channel, username, password);
+            relay = new MessageRelay(channel, user, password);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -45,25 +48,23 @@ public class BotClient extends ClientManager  {
             e.printStackTrace();
         }
 
+        this.username = user;
         messageRelay = relay;
     }
 
     @Override
-    public void run() {
+    protected void read(String message) {
+        super.read(message);
     }
 
     @Override
     public synchronized void sendBeat() {}
 
     @Override
-    public synchronized void sendNormalCheese() {
-        messageRelay.sendMouse();
-    }
+    public abstract void sendNormalCheese();
 
     @Override
-    public synchronized void sendRadCheese() {
-        messageRelay.sendDanger();
-    }
+    public abstract void sendRadCheese();
 
     @Override
     public boolean isRunning() {
@@ -87,5 +88,10 @@ public class BotClient extends ClientManager  {
     @Override
     public int hashCode() {
         return userInfo.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Bot: " + username;
     }
 }

@@ -14,6 +14,7 @@ import java.util.Set;
 
 public class StreamVideoWatcher extends Thread {
     private final CheeseServer server;
+    private final Process process;
     private final InputStream stream;
 
     private boolean seenNormal = false;
@@ -22,9 +23,10 @@ public class StreamVideoWatcher extends Thread {
     private final Cheese radical;
     private final Cheese normal;
 
-    StreamVideoWatcher(CheeseServer server, InputStream stream) throws IOException {
+    StreamVideoWatcher(CheeseServer server, Process process) throws IOException {
         this.server = server;
-        this.stream = stream;
+        this.process = process;
+        this.stream = process.getInputStream();
 
         this.radical = (Cheese) ObjectSaver.load("./Purple.cheesedata");
         radical.setFreedom(5.0f);
@@ -37,8 +39,7 @@ public class StreamVideoWatcher extends Thread {
 
     @Override
     public void run() {
-        JFrame frame = new JFrame();
-        while (server.isRunning()) {
+        while (process.isAlive()) {
             try {
                 BufferedImage image = ImageIO.read(stream);
                 if (image == null) {
@@ -70,10 +71,10 @@ public class StreamVideoWatcher extends Thread {
                     seenNormal = false;
                 }
 
-                DisplayUtilities.display(image, frame);
+//                DisplayUtilities.display(image, frame);
                 image.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Somehow Im here");
             } catch (ArrayIndexOutOfBoundsException e) {
                 // sometimes this happens
 

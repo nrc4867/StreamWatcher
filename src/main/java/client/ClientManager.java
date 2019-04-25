@@ -14,12 +14,8 @@ import java.util.Scanner;
 public class ClientManager extends Client {
     protected final CheeseServer server;
 
-    public ClientManager(CheeseServer server) {
-        this.server = server;
-    }
-
     public ClientManager(Socket socket, CheeseServer server) {
-        setSocket(socket);
+        super(socket);
         this.server = server;
     }
 

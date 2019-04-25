@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -21,7 +22,7 @@ public abstract class Client extends ClosableThread implements Serializable{
     protected OutputStreamWriter outputStream;
     protected InputStreamReader inputStream;
 
-    protected void setSocket(Socket socket) {
+    public Client(Socket socket) {
         this.socket = socket;
 
         OutputStreamWriter outputStream = null;
@@ -30,6 +31,7 @@ public abstract class Client extends ClosableThread implements Serializable{
         try {
             outputStream = new OutputStreamWriter(socket.getOutputStream());
             inputStream = new InputStreamReader(socket.getInputStream());
+        } catch (SocketException e) {
         } catch (IOException e) {
             e.printStackTrace();
         }

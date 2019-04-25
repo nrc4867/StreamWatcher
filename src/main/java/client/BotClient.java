@@ -4,7 +4,7 @@ import org.jibble.pircbot.IrcException;
 import server.CheeseServer;
 
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -24,7 +24,7 @@ public abstract class BotClient extends ClientManager  {
      *                 password - Twitch Password
      */
     public BotClient(CheeseServer server, File userInfo) throws IOException {
-        super(server);
+        super(new Socket(), server);
 
         this.userInfo = userInfo;
         MessageRelay relay = null;
@@ -71,6 +71,7 @@ public abstract class BotClient extends ClientManager  {
         isRunning = false;
         messageRelay.close();
         server.removeClient(this);
+        System.out.printf("%s Closed%n", this);
     }
 
     @Override

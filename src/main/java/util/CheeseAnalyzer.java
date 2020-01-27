@@ -1,7 +1,5 @@
 package util;
 
-import javafx.scene.canvas.GraphicsContext;
-
 import java.awt.image.BufferedImage;
 
 /**

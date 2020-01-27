@@ -29,7 +29,7 @@ public class MessageRelay extends PircBot implements Serializable {
         }
     }
 
-    private final LoginTimer timer = new LoginTimer();
+    private transient final LoginTimer timer = new LoginTimer();
 
     /**
      * The server we connected to liked our password

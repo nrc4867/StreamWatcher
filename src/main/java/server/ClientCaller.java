@@ -12,9 +12,9 @@ public class ClientCaller extends ClosableThread {
 
     public static final int interval = 2 * 60 * 1000;
 
-    private final CheeseServer server;
+    private final Server server;
 
-    public ClientCaller(CheeseServer server) {
+    public ClientCaller(Server server) {
         this.server = server;
     }
 

@@ -1,38 +1,35 @@
 package server;
 
 import client.ClientManager;
-import org.openimaj.image.DisplayUtilities;
-import util.Cheese;
-import util.CheeseAnalyzer;
+import util.FixedImageSaver;
 import util.ObjectSaver;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Set;
 
 public class StreamVideoWatcher extends Thread {
-    private final CheeseServer server;
+    private final Server server;
     private final Process process;
     private final InputStream stream;
 
     private boolean seenNormal = false;
     private boolean seenRadical = false;
 
-    private final Cheese radical;
-    private final Cheese normal;
+    private final FixedImageSaver radical;
+    private final FixedImageSaver normal;
 
-    StreamVideoWatcher(CheeseServer server, Process process) throws IOException {
+    StreamVideoWatcher(Server server, Process process) throws IOException {
         this.server = server;
         this.process = process;
         this.stream = process.getInputStream();
 
-        this.radical = (Cheese) ObjectSaver.load("./Purple.cheesedata");
+        this.radical = (FixedImageSaver) ObjectSaver.load("./Purple.cheesedata");
         radical.setFreedom(5.0f);
         radical.setPercentMatch(0.25f);
 
-        this.normal = (Cheese) ObjectSaver.load("./Yellow.cheesedata");
+        this.normal = (FixedImageSaver) ObjectSaver.load("./Yellow.cheesedata");
         normal.setFreedom(5.0f);
         normal.setPercentMatch(0.25f);
     }
@@ -51,9 +48,9 @@ public class StreamVideoWatcher extends Thread {
 
                 if (!seenNormal && normal.compare(image)) {
                     Set<ClientManager> clientList = server.getClients();
-                    System.out.println("Sending Normal Cheese to: " + clientList.size() + " clients");
+                    System.out.println("Sending Normal Image to: " + clientList.size() + " clients");
                     for (ClientManager client: clientList) {
-                        client.sendNormalCheese();
+                        client.sendNormalImage();
                     }
 
                     seenRadical = false;
@@ -62,9 +59,9 @@ public class StreamVideoWatcher extends Thread {
 
                 if (seenNormal && !seenRadical && radical.compare(image)) {
                     Set<ClientManager> clientList = server.getClients();
-                    System.out.println("Sending Radical Cheese to: " + clientList.size() + " clients");
+                    System.out.println("Sending Radical Image to: " + clientList.size() + " clients");
                     for (ClientManager client: clientList) {
-                        client.sendRadCheese();
+                        client.sendRadImage();
                     }
 
                     seenRadical = true;

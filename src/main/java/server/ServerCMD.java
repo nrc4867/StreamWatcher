@@ -7,19 +7,19 @@ import util.ServerMessages;
 import java.util.Scanner;
 import java.util.Set;
 
-class CheeseServerCMD extends ClosableThread {
+class ServerCMD extends ClosableThread {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    private final CheeseServer server;
+    private final Server server;
 
-    public CheeseServerCMD(CheeseServer server) {
+    public ServerCMD(Server server) {
         this.server = server;
     }
 
     @Override
     public void run() {
-        System.out.println("Running Cheese CMD");
+        System.out.println("Running Image CMD");
         while (server.isRunning()) {
             if(scanner.hasNextLine()) read(scanner.nextLine());
         }
@@ -29,10 +29,10 @@ class CheeseServerCMD extends ClosableThread {
         Set<ClientManager> clients = server.getClients();
         switch (message) {
             case ServerMessages.Cheese:
-                fakeCheese(clients);
+                fakeImage(clients);
                 break;
             case ServerMessages.Rad:
-                fakeRadCheese(clients);
+                fakeRadImage(clients);
                 break;
             case ServerMessages.Close:
                 closeClients(clients);
@@ -46,14 +46,14 @@ class CheeseServerCMD extends ClosableThread {
         }
     }
 
-    private void fakeCheese(Set<ClientManager> clients) {
+    private void fakeImage(Set<ClientManager> clients) {
         for(ClientManager client: clients)
-            client.sendNormalCheese();
+            client.sendNormalImage();
     }
 
-    private void fakeRadCheese(Set<ClientManager> clients) {
+    private void fakeRadImage(Set<ClientManager> clients) {
         for(ClientManager client: clients)
-            client.sendRadCheese();
+            client.sendRadImage();
     }
 
     private void closeClients(Set<ClientManager> clients) {

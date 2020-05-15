@@ -3,7 +3,7 @@ package util;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-public class Cheese implements Serializable{
+public class FixedImageSaver implements Serializable{
 
     transient private float percentMatch;
     transient private float freedom;
@@ -20,11 +20,11 @@ public class Cheese implements Serializable{
 
     private final int[][] pixelData;
 
-    public static Cheese loadCheese(String fileLocation) {
-        return (Cheese) ObjectSaver.load(fileLocation);
+    public static FixedImageSaver loadImage(String fileLocation) {
+        return (FixedImageSaver) ObjectSaver.load(fileLocation);
     }
 
-    public Cheese(String name, int startX, int startY, int sizeX, int sizeY, int[][] pixelData) {
+    public FixedImageSaver(String name, int startX, int startY, int sizeX, int sizeY, int[][] pixelData) {
         this.name = name;
         this.startX = startX;
         this.startY = startY;
@@ -57,14 +57,14 @@ public class Cheese implements Serializable{
         this.percentMatch = percentMatch;
     }
 
-    private boolean scanPixel(int pixel, int cheesePixel) {
+    private boolean scanPixel(int pixel, int ImagePixel) {
         int pr = (pixel >> 16) & 0xff;
         int pg = (pixel >> 8) & 0xff;
         int pb  = (pixel) & 0xff;
 
-        int cr = (cheesePixel >> 16) & 0xff;
-        int cg = (cheesePixel >> 8) & 0xff;
-        int cb  = (cheesePixel) & 0xff;
+        int cr = (ImagePixel >> 16) & 0xff;
+        int cg = (ImagePixel >> 8) & 0xff;
+        int cb  = (ImagePixel) & 0xff;
 
         return colorDistance(pr, pg, pb, cr, cg, cb) >= freedom;
     }
@@ -82,7 +82,7 @@ public class Cheese implements Serializable{
     }
 
     private void log(String message) {
-        System.out.println("Cheese-" + name + ": " + message);
+        System.out.println("Image-" + name + ": " + message);
     }
 
     @Override

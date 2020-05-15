@@ -3,18 +3,18 @@ package util;
 import java.awt.image.BufferedImage;
 
 /**
- * Nothing fancy, just check a few pixels on the cheese to test if its there
+ * Nothing fancy, just check a few pixels on the image to test if its there
  * Fancy stuff is too slow if your doing it live
  *
  * @author Nicholas Chieppa
  */
-public class CheeseAnalyzer {
+public class ImageAnalyzer {
 
     private final static float maxdistance = 10.0f;
     private final static int minMatch = 3;
 
 
-    public static boolean scanNormalCheese(BufferedImage image) {
+    public static boolean scanNormalImage(BufferedImage image) {
         System.out.println("Normal Scan");
         int pixels[][][] = new int[][][]{
                 {{image.getRGB(8,140)}, {253,255,143}},
@@ -25,7 +25,7 @@ public class CheeseAnalyzer {
         return matchPixels(pixels);
     }
 
-    public static boolean scanRadCheese(BufferedImage image) {
+    public static boolean scanRadImage(BufferedImage image) {
         System.out.println("Rad Scan");
         int pixels[][][] = new int[][][]{
                 {{image.getRGB(8,140)}, {214,248,246}},

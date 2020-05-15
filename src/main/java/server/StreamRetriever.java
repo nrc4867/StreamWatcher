@@ -21,10 +21,10 @@ public class StreamRetriever extends ClosableThread{
     };
     private static String command = buildCommand();
 
-    private final CheeseServer server;
+    private final Server server;
     private Process process;
 
-    public StreamRetriever(CheeseServer server) {
+    public StreamRetriever(Server server) {
         this.server = server;
     }
 

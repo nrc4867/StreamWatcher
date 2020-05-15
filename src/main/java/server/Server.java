@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CheeseServer extends ClosableThread {
+public class Server extends ClosableThread {
 
     public final static int defaultPort = 8032;
     public final static boolean terminalInput = false;
@@ -26,7 +26,7 @@ public class CheeseServer extends ClosableThread {
      * Create a server
      * @param port the port to run on
      */
-    public CheeseServer(int port) throws IOException {
+    public Server(int port) throws IOException {
         this.port = port;
         server = new ServerSocket(port);
     }
@@ -100,11 +100,11 @@ public class CheeseServer extends ClosableThread {
 
         int port = defaultPort;
 
-        CheeseServer server = null;
+        Server server = null;
         ClientCaller clientCaller = null;
 
         try {
-            server = new CheeseServer(port);
+            server = new Server(port);
             clientCaller = new ClientCaller(server);
 
             server.start();
@@ -112,10 +112,10 @@ public class CheeseServer extends ClosableThread {
 
             BotClient charcollector = new BotClient(server, new File("D:\\Documents\\sneakyMouse\\char.txt")) {
                 @Override
-                public void sendNormalCheese() {}
+                public void sendNormalImage() {}
 
                 @Override
-                public void sendRadCheese() {
+                public void sendRadImage() {
                     messageRelay.sendMouse();
                     System.out.println(toString());
                 }
@@ -131,7 +131,7 @@ public class CheeseServer extends ClosableThread {
         Runtime runtime = Runtime.getRuntime();
         Shutdown shutdown = new Shutdown(server, clientCaller);
 
-        CheeseServerCMD cmd = new CheeseServerCMD(server);
+        ServerCMD cmd = new ServerCMD(server);
         shutdown.addClosableThreads(cmd);
         cmd.start();
 

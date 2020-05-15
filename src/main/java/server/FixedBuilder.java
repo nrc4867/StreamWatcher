@@ -1,7 +1,7 @@
 package server;
 
 import org.openimaj.image.DisplayUtilities;
-import util.Cheese;
+import util.FixedImageSaver;
 import util.ObjectSaver;
 
 import javax.imageio.ImageIO;
@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class CheeseBuilder extends Thread {
+public class FixedBuilder extends Thread {
 
     private final InputStream stream;
     private final String name;
@@ -27,7 +27,7 @@ public class CheeseBuilder extends Thread {
 
 
 
-    public CheeseBuilder(String name, InputStream stream) throws IOException {
+    public FixedBuilder(String name, InputStream stream) throws IOException {
         this.stream = stream;
         this.name = name;
     }
@@ -96,7 +96,7 @@ public class CheeseBuilder extends Thread {
     }
 
     private void export(int[][] pixelData) {
-        ObjectSaver.save(new Cheese(name, startX, startY, sizeX, sizeY, pixelData), "./" + name + ".cheesedata");
+        ObjectSaver.save(new FixedImageSaver(name, startX, startY, sizeX, sizeY, pixelData), "./" + name + ".cheesedata");
     }
 
 }

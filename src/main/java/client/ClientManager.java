@@ -1,20 +1,16 @@
 package client;
 
-import server.CheeseServer;
-import util.ClosableThread;
+import server.Server;
 import util.ClientMessages;
 import util.ServerMessages;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Scanner;
 
 public class ClientManager extends Client {
-    protected final CheeseServer server;
+    protected final Server server;
 
-    public ClientManager(Socket socket, CheeseServer server) {
+    public ClientManager(Socket socket, Server server) {
         super(socket);
         this.server = server;
     }
@@ -47,14 +43,14 @@ public class ClientManager extends Client {
     /**
      * The server tells the client there is normal cheese
      */
-    public synchronized void sendNormalCheese() {
+    public synchronized void sendNormalImage() {
         writeMessage(ServerMessages.Cheese);
     }
 
     /**
      * The server tells the client there is rad cheese
      */
-    public synchronized void sendRadCheese() {
+    public synchronized void sendRadImage() {
         writeMessage(ServerMessages.Rad);
     }
 

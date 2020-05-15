@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CheeseWatcher.iml" filepath="$PROJECT_DIR$/CheeseWatcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StreamWatcher.iml" filepath="$PROJECT_DIR$/StreamWatcher.iml" />
     </modules>
   </component>
 </project>

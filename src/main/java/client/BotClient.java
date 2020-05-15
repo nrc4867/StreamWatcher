@@ -1,7 +1,7 @@
 package client;
 
 import org.jibble.pircbot.IrcException;
-import server.CheeseServer;
+import server.Server;
 
 import java.io.*;
 import java.net.*;
@@ -17,13 +17,13 @@ public abstract class BotClient extends ClientManager  {
     private final String username;
 
     /**
-     * Create a bot to collect cheese
+     * Create a bot to watch for images
      * @param server the server the bot lives on
      * @param userInfo channel - Twitch IRC
      *                 username - Twitch Username
      *                 password - Twitch Password
      */
-    public BotClient(CheeseServer server, File userInfo) throws IOException {
+    public BotClient(Server server, File userInfo) throws IOException {
         super(new Socket(), server);
 
         this.userInfo = userInfo;
@@ -56,10 +56,10 @@ public abstract class BotClient extends ClientManager  {
     public synchronized void sendBeat() {}
 
     @Override
-    public abstract void sendNormalCheese();
+    public abstract void sendNormalImage();
 
     @Override
-    public abstract void sendRadCheese();
+    public abstract void sendRadImage();
 
     @Override
     public boolean isRunning() {
